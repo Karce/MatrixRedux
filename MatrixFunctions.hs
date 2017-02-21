@@ -20,4 +20,5 @@ module MatrixFunctions
 ( scaleRow
 ) where
 
+scaleRow :: Num a => a -> Int -> [[a]] -> [[a]]
 scaleRow scalar row matrix = (take (row) matrix) ++ [(map (scalar*) (matrix !! row))] ++ (drop (row+1) matrix)
