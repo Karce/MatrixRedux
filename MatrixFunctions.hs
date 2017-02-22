@@ -21,4 +21,10 @@ module MatrixFunctions
 ) where
 
 scaleRow :: Num a => a -> Int -> [[a]] -> [[a]]
-scaleRow scalar row matrix = (take (row) matrix) ++ [(map (scalar*) (matrix !! row))] ++ (drop (row+1) matrix)
+scaleRow scalar row matrix = (take row matrix) ++ [map (scalar*) (matrix !! row)] ++ (drop (row+1) matrix)
+
+replaceRow :: Num a => a -> Int -> Int -> [[a]] -> [[a]]
+replaceRow scalar origRow replacedRow matrix = (take replacedRow matrix) ++ [subtractRows (map (scalar*) (matrix !! origRow)) (matrix !! replacedRow)] ++ (drop (replacedRow + 1) matrix)
+
+subtractRows :: Num a => [a] -> [a] -> [a]
+subtractRows xs ys = if not (null xs) && not (null ys) then ((head xs) - (head ys)) : (subtractRows (tail xs) (tail ys)) else []
