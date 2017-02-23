@@ -18,13 +18,45 @@
 
 module MatrixFunctions
 ( scaleRow
+, replaceRow
+, subtractRows
+, interchange
 ) where
 
 scaleRow :: Num a => a -> Int -> [[a]] -> [[a]]
-scaleRow scalar row matrix = (take row matrix) ++ [map (scalar*) (matrix !! row)] ++ (drop (row+1) matrix)
+scaleRow scalar row matrix
+    = (take row matrix)
+   ++ [map (scalar*) (matrix !! row)]
+   ++ (drop (row+1) matrix)
 
 replaceRow :: Num a => a -> Int -> Int -> [[a]] -> [[a]]
-replaceRow scalar origRow replacedRow matrix = (take replacedRow matrix) ++ [subtractRows (map (scalar*) (matrix !! origRow)) (matrix !! replacedRow)] ++ (drop (replacedRow + 1) matrix)
+replaceRow scalar origRow replacedRow matrix
+    = (take replacedRow matrix)
+   ++ [subtractRows (map (scalar*) (matrix !! origRow)) (matrix !! replacedRow)]
+   ++ (drop (replacedRow + 1) matrix)
 
 subtractRows :: Num a => [a] -> [a] -> [a]
-subtractRows xs ys = if not (null xs) && not (null ys) then ((head xs) - (head ys)) : (subtractRows (tail xs) (tail ys)) else []
+subtractRows xs ys =
+    if not (null xs) && not (null ys) 
+    then ((head xs) - (head ys)) : (subtractRows (tail xs) (tail ys)) 
+    else []
+
+interchange :: Num a => Int -> Int -> [[a]] -> [[a]]
+interchange row1 row2 matrix =
+    if row1 < row2
+    then   (take row1 matrix)
+        ++ [(matrix !! row2)]
+        ++ (if (row2 - row1) > 1
+           then take (row2 - row1 - 1) (drop (row1 + 1) matrix)
+           else [])
+        ++ [(matrix !! row1)]
+        ++ (drop (row2 + 1) matrix)
+    else if row1 > row2
+    then   (take row2 matrix)
+        ++ [(matrix !! row1)]
+        ++ (if (row1 - row2) > 1
+           then take (row1 - row2 - 1) (drop (row2 + 1) matrix)
+           else [])
+        ++ [(matrix !! row2)]
+        ++ (drop (row1 + 1) matrix)
+    else matrix
