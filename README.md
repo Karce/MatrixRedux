@@ -1,5 +1,7 @@
 # MatrixRedux
-MatrixRedux is my implementation of matrix row eduction in Haskell.
+MatrixRedux is my implementation of matrix row reduction in Haskell.
+
+MatrixRedux will reduce a matrix to reduced row echelon form.
 
 To run this, compile MatrixRun.hs and MatrixFunctions.hs with ghc.
 Then execute the binary "MatrixRun" with the desired matrix in the first argument.
