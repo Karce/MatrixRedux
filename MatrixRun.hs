@@ -17,8 +17,13 @@
 --
 
 import MatrixFunctions
+import System.Environment
 
+-- Run this binary with the matrix as the first argument and do not include
+-- spaces in the matrix. A valid matrix would be [[4,0,3,5],[5,3,0,5],[0,0,3,6]]
+-- but an invalid matrix argument would be [[4, 0, 3, 5],[5,3,0,5],[0,0,3,6]].
+-- Only the first argument is currently read.
 main = do
-    matrix <- getLine
-    let scaledMatrix = scaleRow 2 1 (read matrix)
-    putStrLn (show scaledMatrix)
+    args <- getArgs
+    let matrix = args !! 0
+    putStrLn (show (simplify (read matrix)))
